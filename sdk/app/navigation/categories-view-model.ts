@@ -1,17 +1,41 @@
 import observableModule = require("data/observable");
 import frameModule = require("ui/frame");
+import listviewModule = require("nativescript-telerik-ui/listview");
+
+export class OptionItem {
+    private _tag: any;
+    private _name: string;
+
+    get tag(): any {
+        return this._tag;
+    }
+
+    get name(): string {
+        return this._name;
+    }
+
+    set name(value: string) {
+        this._name = value;
+    }
+}
 
 export class NavigationItem {
     private _subItems: Array<NavigationItem>;
     private _title: string;
     private _module: string;
     private _parent: NavigationItem;
+    private _options: Array<OptionItem>;
 
     constructor(title: string, module: string, parent: NavigationItem) {
         this._title = title;
         this._parent = parent;
         this._module = module;
         this._subItems = new Array<NavigationItem>();
+        this._options = new Array<OptionItem>();
+    }
+
+    get options(): Array<OptionItem> {
+        return this._options;
     }
 
     get subItems(): Array<NavigationItem> {
@@ -141,8 +165,8 @@ export class NavigationViewModel extends observableModule.Observable {
 
         seriesExample = new NavigationItem("Scatter series", "./chart/series/scatter/scatter-series", seriesRoot);
         seriesRoot.subItems.push(seriesExample);
-        
-        
+
+
         var stylingRoot = new NavigationItem("Styling", undefined, chartRoot);
         chartRoot.subItems.push(stylingRoot);
         var stylingExample = new NavigationItem("Styling axes", "/chart/styling/styling-axes", stylingRoot);
@@ -183,17 +207,17 @@ export class NavigationViewModel extends observableModule.Observable {
         axesRoot.subItems.push(axesExample);
 
         axesExample = new NavigationItem("Negative values", "./chart/axes/negative-values/negative-values", axesRoot);
-        axesRoot.subItems.push(axesExample);     
-        
+        axesRoot.subItems.push(axesExample);
+
         axesExample = new NavigationItem("Date time axis", "./chart/axes/date-time-axes/date-time-axes", axesRoot);
-        axesRoot.subItems.push(axesExample);     
-               
+        axesRoot.subItems.push(axesExample);
+
         var annotationsRoot = new NavigationItem("Annotations", undefined, chartRoot);
         chartRoot.subItems.push(annotationsRoot);
-    
+
         var annotationsExample = new NavigationItem("Plot band", "./chart/annotations/plot-band", annotationsRoot);
         annotationsRoot.subItems.push(annotationsExample);
-  
+
         annotationsExample = new NavigationItem("Grid line", "./chart/annotations/band-line", annotationsRoot);
         annotationsRoot.subItems.push(annotationsExample);
     }
@@ -213,6 +237,18 @@ export class NavigationViewModel extends observableModule.Observable {
         layoutsItem.subItems.push(layoutsExample);
         layoutsExample = new NavigationItem("Staggered", "./listview/item-layouts/item-layouts-staggered", layoutsItem);
         layoutsItem.subItems.push(layoutsExample);
+        
+        var optionItem = new OptionItem();
+        optionItem.tag = new listviewModule.ListViewLinearLayout();
+        layoutsExample.options.push(optionItem);
+        
+        optionItem = new OptionItem();
+        optionItem.tag = new listviewModule.ListViewStaggeredLayout();
+        layoutsExample.options.push(optionItem);
+        
+        optionItem = new OptionItem();
+        optionItem.tag = new listviewModule.ListViewGridLayout();
+        layoutsExample.options.push(optionItem);
         
         // Item reorder
         exampleItem = new NavigationItem("Item Reorder", "./listview/item-reorder/item-reorder", currentItem);

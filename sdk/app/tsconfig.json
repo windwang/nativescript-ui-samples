@@ -16,7 +16,7 @@
         "./../node_modules/nativescript-telerik-ui/**/*.ts"
     ],
     "files": [
-        "app.ts",
+        "./app.ts",
         "./app-view-model.ts",
         "./calendar/events/events.ts",
         "./calendar/getting-started/getting-started.ts",
